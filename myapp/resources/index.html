@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>TaskFlow - Modern Task Management</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div id="neutralinoapp">
+      <div class="sidebar">
+        <div class="logo">
+          <i class="fas fa-tasks"></i>
+          <span>TaskFlow</span>
+        </div>
+        <nav>
+          <a href="#" class="active" onclick="switchView('tasks')">
+            <i class="fas fa-list"></i>
+            <span>Tasks</span>
+          </a>
+          <a href="#" onclick="switchView('analytics')">
+            <i class="fas fa-chart-bar"></i>
+            <span>Analytics</span>
+          </a>
+          <a href="#" onclick="switchView('files')">
+            <i class="fas fa-folder"></i>
+            <span>Files</span>
+          </a>
+          <a href="#" onclick="switchView('settings')">
+            <i class="fas fa-cog"></i>
+            <span>Settings</span>
+          </a>
+        </nav>
+        <div class="system-info">
+          <div id="cpu-usage">CPU: --</div>
+          <div id="memory-usage">Memory: --</div>
+        </div>
+      </div>
+
+      <div class="main-content">
+        <div class="header">
+          <div class="search-bar">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Search tasks..." id="searchInput" />
+          </div>
+          <div class="user-info">
+            <span id="datetime"></span>
+            <button class="add-task-btn" onclick="showAddTaskModal()">
+              <i class="fas fa-plus"></i> New Task
+            </button>
+          </div>
+        </div>
+
+        <div class="content-area">
+          <div id="tasks-view" class="view active">
+            <div class="kanban-board">
+              <div class="column" id="todo">
+                <h2>To Do</h2>
+                <div
+                  class="tasks-container"
+                  ondrop="drop(event)"
+                  ondragover="allowDrop(event)"
+                ></div>
+              </div>
+              <div class="column" id="in-progress">
+                <h2>In Progress</h2>
+                <div
+                  class="tasks-container"
+                  ondrop="drop(event)"
+                  ondragover="allowDrop(event)"
+                ></div>
+              </div>
+              <div class="column" id="completed">
+                <h2>Completed</h2>
+                <div
+                  class="tasks-container"
+                  ondrop="drop(event)"
+                  ondragover="allowDrop(event)"
+                ></div>
+              </div>
+            </div>
+          </div>
+
+          <div id="analytics-view" class="view">
+            <div class="analytics-container">
+              <div class="chart-container">
+                <canvas id="tasksChart"></canvas>
+              </div>
+              <div class="stats-grid">
+                <div class="stat-card">
+                  <i class="fas fa-check-circle"></i>
+                  <h3>Completed</h3>
+                  <span id="completed-count">0</span>
+                </div>
+                <div class="stat-card">
+                  <i class="fas fa-clock"></i>
+                  <h3>Pending</h3>
+                  <span id="pending-count">0</span>
+                </div>
+                <div class="stat-card">
+                  <i class="fas fa-calendar"></i>
+                  <h3>This Week</h3>
+                  <span id="weekly-count">0</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="files-view" class="view">
+            <div class="files-container">
+              <div class="file-explorer">
+                <div class="file-header">
+                  <h2>File Explorer</h2>
+                  <button onclick="openFileDialog()">
+                    <i class="fas fa-upload"></i> Upload
+                  </button>
+                </div>
+                <div id="file-list"></div>
+              </div>
+            </div>
+          </div>
+
+          <div id="settings-view" class="view">
+            <div class="settings-container">
+              <h2>Settings</h2>
+              <div class="setting-item">
+                <label>Theme</label>
+                <select id="theme-selector" onchange="changeTheme()">
+                  <option value="light">Light</option>
+                  <option value="dark">Dark</option>
+                </select>
+              </div>
+              <div class="setting-item">
+                <label>Notifications</label>
+                <label class="switch">
+                  <input type="checkbox" id="notifications-toggle" />
+                  <span class="slider"></span>
+                </label>
+              </div>
+              <div class="setting-item">
+                <label>Auto-save</label>
+                <label class="switch">
+                  <input type="checkbox" id="autosave-toggle" checked />
+                  <span class="slider"></span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add Task Modal -->
+    <div id="addTaskModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeAddTaskModal()">&times;</span>
+        <h2>Add New Task</h2>
+        <form id="addTaskForm">
+          <div class="form-group">
+            <label>Title</label>
+            <input type="text" id="taskTitle" required />
+          </div>
+          <div class="form-group">
+            <label>Description</label>
+            <textarea id="taskDescription" required></textarea>
+          </div>
+          <div class="form-group">
+            <label>Due Date</label>
+            <input type="date" id="taskDueDate" required />
+          </div>
+          <div class="form-group">
+            <label>Priority</label>
+            <select id="taskPriority">
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
+            </select>
+          </div>
+          <button type="submit" class="add-btn">Add Task</button>
+        </form>
+      </div>
+    </div>
+
+    <script src="js/neutralino.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>
